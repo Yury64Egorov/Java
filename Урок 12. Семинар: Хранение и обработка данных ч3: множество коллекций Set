@@ -1,0 +1,48 @@
+import java.util.*;
+
+public class PhoneBook {
+    private Map<String, Set<String>> phoneBook;
+
+    // Конструктор
+    public PhoneBook() {
+        this.phoneBook = new HashMap<>();
+    }
+
+    // Метод для добавления номера телефона в книгу
+    public void addPhoneNumber(String name, String phoneNumber) {
+        // Проверяем, есть ли уже такой человек в телефонной книге
+        phoneBook.putIfAbsent(name, new HashSet<>());
+        // Добавляем новый номер телефона для данного имени
+        phoneBook.get(name).add(phoneNumber);
+    }
+
+    // Метод для вывода всех записей с сортировкой по количеству номеров
+    public void printSortedPhoneBook() {
+        // Преобразуем карту в список для сортировки
+        List<Map.Entry<String, Set<String>>> entries = new ArrayList<>(phoneBook.entrySet());
+
+        // Сортируем список по убыванию числа телефонов
+        entries.sort((e1, e2) -> Integer.compare(e2.getValue().size(), e1.getValue().size()));
+
+        // Выводим результат
+        for (Map.Entry<String, Set<String>> entry : entries) {
+            System.out.println("Имя: " + entry.getKey() + " - Телефоны: " + entry.getValue());
+        }
+    }
+
+    public static void main(String[] args) {
+        PhoneBook phoneBook = new PhoneBook();
+
+        // Добавляем записи в телефонную книгу
+        phoneBook.addPhoneNumber("Иван", "123456789");
+        phoneBook.addPhoneNumber("Петр", "987654321");
+        phoneBook.addPhoneNumber("Иван", "111222333");
+        phoneBook.addPhoneNumber("Анна", "444555666");
+        phoneBook.addPhoneNumber("Анна", "123123123");
+        phoneBook.addPhoneNumber("Петр", "555666777");
+        phoneBook.addPhoneNumber("Иван", "999888777");
+
+        // Выводим отсортированную телефонную книгу
+        phoneBook.printSortedPhoneBook();
+    }
+}
